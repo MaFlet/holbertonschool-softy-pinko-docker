@@ -1,0 +1,37 @@
+services:
+  proxy:
+    build:
+      context: ./proxy
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - front-end
+      - back-end-1
+      - back-end-2
+
+  front-end:
+    build:
+      context: ./front-end
+      dockerfile: Dockerfile
+    ports:
+      - "9000:9000"
+
+  back-end-1:
+    build:
+      context: ./back-end
+      dockerfile: Dockerfile
+    ports:
+      - "5252:5252"
+    depends_on:
+      - redis
+
+  back-end-2:
+    build:
+      context: ./back-end
+      dockerfile: dockerfile
+    ports:
+      - "5253:5252"
+
+  redis:
+    image: "redis:alpine"
